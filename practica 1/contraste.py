@@ -11,23 +11,23 @@ def main():
 
 def contraste():
     #toma imagen en escala de grises
-	image1 = Image.open(argv[1])
-	pixels = image1.load()
-	ancho,alto = image1.size
+	image = Image.open(argv[1])
+	ancho,alto = image.size
 	minimo = int(argv[2]) #toma un valor umbral minimo
 	for i in range(ancho):
 		for j in range(alto):
-			a = pixels[i,j]
-			escala = math.trunc((a[0] + a[1] + a[2])/3)		
-			pixels[i,j] = (escala,escala, escala)
-			if pixels[i,j][1] < minimo:
+			(r,g,b) = image.getpixel((i,j))
+			escala = math.trunc((r + g + b)/3)		
+			image.putpixel((i,j), (escala,escala, escala))
+			if r < minimo:
 				p=0
 			else:
 				p= 255
-				pixels[i,j]=(p,p,p)
+				
+			image.putpixel((i,j), (p,p,p))
 
 	new = 'contraste.png'
-	image1.save(new)
+	image.save(new)
 
 if __name__ == "__main__":
     main()
